@@ -1,17 +1,15 @@
 interface HeaderProps {
-    lang: 'FR' | 'EN'
+    title: string
+    subtitle: string
 }
 
-const Header: React.FC<HeaderProps> = ({ lang='FR' })=>{
-    return(
-        <>
-        <h1>My Super APP</h1>
-        <p>copy wish of My Thread Applicaiton</p>
-            <div>
-                <button>Home</button>
-                <button>Dashboard</button>
-                <select value={lang}></select>
-            </div>
-        </>
+function Header({ title, subtitle }: HeaderProps) {
+    return (
+        <header>
+            <h1>{title}</h1>
+            <p>{subtitle}</p>
+        </header>
     )
 }
+
+export default Header
