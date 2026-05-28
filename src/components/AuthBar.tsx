@@ -1,17 +1,23 @@
 import { useState } from 'react'
 import { useAuth } from '../hooks/useAuth.ts'
+import { useAppDispatch, useAppSelector } from '../store/hooks.ts'
+import {
+    resetLoginForm,
+    selectLoginForm,
+    setLoginForm,
+    updateLoginField,
+} from '../store/slices/loginFormSlice.ts'
 import Modal from './Modal.tsx'
 
 const AuthBar = () => {
     const { user, isAuthenticated, login, logout } = useAuth()
+    const dispatch = useAppDispatch()
+    const { name, email } = useAppSelector(selectLoginForm)
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
 
     const handleLogin = () => {
         login(name, email)
-        setName('')
-        setEmail('')
+        dispatch(resetLoginForm())
         setIsModalOpen(false)
     }
 
@@ -30,8 +36,12 @@ const AuthBar = () => {
     }
 
     const fillDemoCredentials = () => {
-        setName('Alice Martin')
-        setEmail('alice@example.com')
+        dispatch(
+            setLoginForm({
+                name: 'Alice Martin',
+                email: 'alice@example.com',
+            })
+        )
     }
 
     return (
@@ -75,7 +85,14 @@ const AuthBar = () => {
                         id="auth-name"
                         type="text"
                         value={name}
-                        onChange={(event) => setName(event.target.value)}
+                        onChange={(event) =>
+                            dispatch(
+                                updateLoginField({
+                                    field: 'name',
+                                    value: event.target.value,
+                                })
+                            )
+                        }
                         placeholder="Alice Martin"
                         required
                     />
@@ -85,7 +102,14 @@ const AuthBar = () => {
                         id="auth-email"
                         type="email"
                         value={email}
-                        onChange={(event) => setEmail(event.target.value)}
+                        onChange={(event) =>
+                            dispatch(
+                                updateLoginField({
+                                    field: 'email',
+                                    value: event.target.value,
+                                })
+                            )
+                        }
                         placeholder="alice@example.com"
                         required
                     />
