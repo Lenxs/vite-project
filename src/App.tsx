@@ -1,36 +1,30 @@
-import { useState } from 'react'
 import './App.css'
+import AuthBar from './components/AuthBar.tsx'
 import Header from './components/Header.tsx'
-import MainForm from './components/MainForm.tsx'
-import UserCard from './components/UserCard.tsx'
-import type { User } from './types/user.ts'
+import LocalUsersSection from './components/LocalUsersSection.tsx'
+import UsersPanel from './components/UsersPanel.tsx'
+import { useAuth } from './hooks/useAuth.ts'
 
 function App() {
-    const [users, setUsers] = useState<User[]>([])
-
-    const handleAddUser = (name: string, email: string) => {
-        const newUser: User = {
-            id: users.length + 1,
-            name,
-            email,
-        }
-        setUsers((prevUsers) => [...prevUsers, newUser])
-    }
+    const { isAuthenticated } = useAuth()
 
     return (
         <main className="app">
             <Header
                 title="Mon application fil rouge"
-                subtitle="Module 2 - TypeScript et tests"
+                subtitle="Module 3 - Contexts, Portals et Custom Hooks"
             />
-            <MainForm onSubmit={handleAddUser} />
-            <section aria-label="Liste des utilisateurs">
-                {users.length === 0 ? (
-                    <p>Aucun utilisateur pour le moment.</p>
-                ) : (
-                    users.map((user) => <UserCard key={user.id} user={user} />)
-                )}
-            </section>
+            <AuthBar />
+            <UsersPanel />
+
+            {isAuthenticated ? (
+                <LocalUsersSection />
+            ) : (
+                <p className="app-hint">
+                    Connectez-vous pour ajouter des utilisateurs locaux et
+                    accéder au formulaire principal.
+                </p>
+            )}
         </main>
     )
 }
