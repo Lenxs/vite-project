@@ -1,0 +1,7 @@
+{
+  "label": "Avant code splitting (TP5)",
+  "entryJsKb": 231.04,
+  "entryJsGzipKb": 73.65,
+  "chunks": 1,
+  "note": "Un seul fichier index-*.js contenant toute l'application."
+}

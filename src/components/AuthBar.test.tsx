@@ -1,21 +1,15 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { AuthProvider } from '../contexts/AuthProvider.tsx'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import AuthBar from './AuthBar.tsx'
-
-const renderWithAuthProvider = () => {
-    return render(
-        <AuthProvider>
-            <AuthBar />
-        </AuthProvider>
-    )
-}
+import { renderWithProviders } from '../test/test-utils.tsx'
 
 describe('AuthBar', () => {
-    it('permet de se connecter via la modal', () => {
-        renderWithAuthProvider()
+    it('permet de se connecter via la modal', async () => {
+        renderWithProviders(<AuthBar />)
 
         fireEvent.click(screen.getByRole('button', { name: 'Se connecter' }))
-        fireEvent.change(screen.getByLabelText('Nom'), {
+
+        const nameInput = await screen.findByLabelText('Nom')
+        fireEvent.change(nameInput, {
             target: { value: 'Alice' },
         })
         fireEvent.change(screen.getByLabelText('Email'), {
@@ -25,7 +19,9 @@ describe('AuthBar', () => {
             screen.getByRole('button', { name: 'Valider la connexion' })
         )
 
-        expect(screen.getByText('Alice')).toBeInTheDocument()
+        await waitFor(() => {
+            expect(screen.getByText('Alice')).toBeInTheDocument()
+        })
         expect(
             screen.getByRole('button', { name: 'Se déconnecter' })
         ).toBeInTheDocument()

@@ -1,9 +1,12 @@
+import { Suspense } from 'react'
 import './App.css'
 import AuthBar from './components/AuthBar.tsx'
 import Header from './components/Header.tsx'
 import LocalUsersSection from './components/LocalUsersSection.tsx'
 import UsersPanel from './components/UsersPanel.tsx'
 import { useAuth } from './hooks/useAuth.ts'
+
+// const DashboardPage = lazy(() => import('./pages/DashboardPage.tsx'))
 
 function App() {
     const { isAuthenticated } = useAuth()
@@ -15,7 +18,9 @@ function App() {
                 subtitle="Module 4 - Redux Form, Persist et Middleware"
             />
             <AuthBar />
-            <UsersPanel />
+            <Suspense fallback={<div>Chargement...</div>}>
+                <UsersPanel />
+            </Suspense>
 
             {isAuthenticated ? (
                 <LocalUsersSection />

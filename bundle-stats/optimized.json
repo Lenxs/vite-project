@@ -1,0 +1,29 @@
+{
+  "label": "Après code splitting (TP5)",
+  "entryJsKb": 7.89,
+  "chunks": 5,
+  "entryReductionPercent": 96.6,
+  "files": [
+    {
+      "file": "vendor-react-BfaJXzyK.js",
+      "sizeKb": 174.45
+    },
+    {
+      "file": "vendor-redux-BnjxJF4N.js",
+      "sizeKb": 22.6
+    },
+    {
+      "file": "vendor-misc-BPRrA1JB.js",
+      "sizeKb": 20.5
+    },
+    {
+      "file": "index-B-ZMgvMs.js",
+      "sizeKb": 7.89
+    },
+    {
+      "file": "rolldown-runtime-Bh1tDfsg.js",
+      "sizeKb": 0.55
+    }
+  ],
+  "generatedAt": "2026-05-28T13:48:31.495Z"
+}
