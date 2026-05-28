@@ -1,66 +1,48 @@
-import {
-    configureStore,
-    createSlice,
-    type PayloadAction,
-    type Middleware,
-} from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
 import {
-    useDispatch,
-    useSelector,
-    type TypedUseSelectorHook,
-} from 'react-redux'
+    FLUSH,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+    REHYDRATE,
+    persistReducer,
+    persistStore,
+} from 'redux-persist'
+import { loggerMiddleware } from './middleware/loggerMiddleware.ts'
+import storage from './storage.ts'
+import { authReducer } from './slices/authSlice.ts'
+import { loginFormReducer } from './slices/loginFormSlice.ts'
 
-type ThemeState = {
-    mode: 'light' | 'dark'
+const authPersistConfig = {
+    key: 'auth',
+    storage,
 }
 
-const initialState: ThemeState = {
-    mode: 'light',
-}
-
-const themeSlice = createSlice({
-    name: 'theme',
-    initialState,
-    reducers: {
-        toggleTheme: (state) => {
-            state.mode = state.mode === 'light' ? 'dark' : 'light'
-        },
-        setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
-            state.mode = action.payload
-        },
-    },
+const rootReducer = combineReducers({
+    auth: persistReducer(authPersistConfig, authReducer),
+    loginForm: loginFormReducer,
 })
-
-export const { toggleTheme, setTheme } = themeSlice.actions
-
-const savedTheme =
-    (localStorage.getItem('theme') as 'light' | 'dark') || 'light'
-
-const persistThemeMiddleware: Middleware = (store) => (next) => (action) => {
-    const result = next(action)
-    const state = store.getState() as RootState
-
-    localStorage.setItem('theme', state.theme.mode)
-
-    return result
-}
 
 export const store = configureStore({
-    reducer: {
-        theme: themeSlice.reducer,
-    },
-    preloadedState: {
-        theme: {
-            mode: savedTheme,
-        },
-    },
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(persistThemeMiddleware),
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [
+                    FLUSH,
+                    REHYDRATE,
+                    PAUSE,
+                    PERSIST,
+                    PURGE,
+                    REGISTER,
+                ],
+            },
+        }).concat(loggerMiddleware),
 })
+
+export const persistor = persistStore(store)
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
-
-export const useAppDispatch = () => useDispatch<AppDispatch>()
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

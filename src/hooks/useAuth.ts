@@ -1,12 +1,24 @@
-import { useContext } from 'react'
-import { AuthContext } from '../contexts/authContext.ts'
+import { useAppDispatch, useAppSelector } from '../store/hooks.ts'
+import {
+    login,
+    logout,
+    selectAuthUser,
+    selectIsAuthenticated,
+} from '../store/slices/authSlice.ts'
 
 export const useAuth = () => {
-    const context = useContext(AuthContext)
+    const user = useAppSelector(selectAuthUser)
+    const isAuthenticated = useAppSelector(selectIsAuthenticated)
+    const dispatch = useAppDispatch()
 
-    if (!context) {
-        throw new Error('useAuth doit être utilisé dans un AuthProvider')
+    return {
+        user,
+        isAuthenticated,
+        login: (name: string, email: string) => {
+            dispatch(login({ name, email }))
+        },
+        logout: () => {
+            dispatch(logout())
+        },
     }
-
-    return context
 }
