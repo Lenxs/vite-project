@@ -24,6 +24,7 @@
         "src/**/*.test.ts",
         "src/**/*.test.tsx",
         "src/**/jest.setup.ts",
-        "src/test"
+        "src/test",
+        "src/__tests__"
     ]
 }
