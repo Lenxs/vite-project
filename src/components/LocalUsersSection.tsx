@@ -3,7 +3,7 @@ import MainForm from './MainForm.tsx'
 import UserCard from './UserCard.tsx'
 import type { User } from '../types/user.ts'
 
-function LocalUsersSection() {
+const LocalUsersSection = () => {
     const [users, setUsers] = useState<User[]>([])
 
     const handleAddUser = (name: string, email: string) => {
