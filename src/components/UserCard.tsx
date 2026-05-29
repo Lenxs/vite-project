@@ -14,6 +14,4 @@ const UserCard = memo(({ user }: UserCardProps) => {
     )
 })
 
-UserCard.displayName = 'UserCard'
-
 export default UserCard

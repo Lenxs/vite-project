@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { useAuth } from '../hooks/useAuth.ts'
 import { useAppDispatch, useAppSelector } from '../store/hooks.ts'
 import {
@@ -7,7 +7,9 @@ import {
     setLoginForm,
     updateLoginField,
 } from '../store/slices/loginFormSlice.ts'
-import Modal from './Modal.tsx'
+import PageLoader from './PageLoader.tsx'
+
+const Modal = lazy(() => import('./Modal.tsx'))
 
 const AuthBar = () => {
     const { user, isAuthenticated, login, logout } = useAuth()
@@ -54,69 +56,72 @@ const AuthBar = () => {
             <button type="button" onClick={() => setIsModalOpen(true)}>
                 Se connecter
             </button>
-
-            <Modal
-                isOpen={isModalOpen}
-                title="Connexion"
-                onClose={() => setIsModalOpen(false)}
+            <Suspense
+                fallback={<PageLoader label="Chargement de la modal..." />}
             >
-                <form
-                    className="auth-form"
-                    onSubmit={(event) => {
-                        event.preventDefault()
-                        handleLogin()
-                    }}
+                <Modal
+                    isOpen={isModalOpen}
+                    title="Connexion"
+                    onClose={() => setIsModalOpen(false)}
                 >
-                    <p className="auth-hint">
-                        Exemple : <strong>Alice Martin</strong> /{' '}
-                        <strong>alice@example.com</strong>
-                    </p>
-
-                    <button
-                        type="button"
-                        className="auth-demo-button"
-                        onClick={fillDemoCredentials}
+                    <form
+                        className="auth-form"
+                        onSubmit={(event) => {
+                            event.preventDefault()
+                            handleLogin()
+                        }}
                     >
-                        Remplir la connexion démo
-                    </button>
+                        <p className="auth-hint">
+                            Exemple : <strong>Alice Martin</strong> /{' '}
+                            <strong>alice@example.com</strong>
+                        </p>
 
-                    <label htmlFor="auth-name">Nom</label>
-                    <input
-                        id="auth-name"
-                        type="text"
-                        value={name}
-                        onChange={(event) =>
-                            dispatch(
-                                updateLoginField({
-                                    field: 'name',
-                                    value: event.target.value,
-                                })
-                            )
-                        }
-                        placeholder="Alice Martin"
-                        required
-                    />
+                        <button
+                            type="button"
+                            className="auth-demo-button"
+                            onClick={fillDemoCredentials}
+                        >
+                            Remplir la connexion démo
+                        </button>
 
-                    <label htmlFor="auth-email">Email</label>
-                    <input
-                        id="auth-email"
-                        type="email"
-                        value={email}
-                        onChange={(event) =>
-                            dispatch(
-                                updateLoginField({
-                                    field: 'email',
-                                    value: event.target.value,
-                                })
-                            )
-                        }
-                        placeholder="alice@example.com"
-                        required
-                    />
+                        <label htmlFor="auth-name">Nom</label>
+                        <input
+                            id="auth-name"
+                            type="text"
+                            value={name}
+                            onChange={(event) =>
+                                dispatch(
+                                    updateLoginField({
+                                        field: 'name',
+                                        value: event.target.value,
+                                    })
+                                )
+                            }
+                            placeholder="Alice Martin"
+                            required
+                        />
 
-                    <button type="submit">Valider la connexion</button>
-                </form>
-            </Modal>
+                        <label htmlFor="auth-email">Email</label>
+                        <input
+                            id="auth-email"
+                            type="email"
+                            value={email}
+                            onChange={(event) =>
+                                dispatch(
+                                    updateLoginField({
+                                        field: 'email',
+                                        value: event.target.value,
+                                    })
+                                )
+                            }
+                            placeholder="alice@example.com"
+                            required
+                        />
+
+                        <button type="submit">Valider la connexion</button>
+                    </form>
+                </Modal>
+            </Suspense>
         </section>
     )
 }
