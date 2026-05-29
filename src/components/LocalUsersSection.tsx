@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import MainForm from './MainForm.tsx'
-import UserCard from './UserCard.tsx'
 import type { User } from '../types/user.ts'
+import { TransitionGroup } from 'react-transition-group'
+import AnimatedUserCard from './AnimatedUserCard.tsx'
 
 const LocalUsersSection = () => {
     const [users, setUsers] = useState<User[]>([])
@@ -15,6 +16,10 @@ const LocalUsersSection = () => {
         setUsers((prevUsers) => [...prevUsers, newUser])
     }
 
+    const handleRemoveUser = (id: number) => {
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id))
+    }
+
     return (
         <>
             <MainForm onSubmit={handleAddUser} />
@@ -23,7 +28,15 @@ const LocalUsersSection = () => {
                 {users.length === 0 ? (
                     <p>Aucun utilisateur local pour le moment.</p>
                 ) : (
-                    users.map((user) => <UserCard key={user.id} user={user} />)
+                    <TransitionGroup component="div" className="users-list">
+                        {users.map((user) => (
+                            <AnimatedUserCard
+                                key={user.id}
+                                user={user}
+                                onRemove={handleRemoveUser}
+                            />
+                        ))}
+                    </TransitionGroup>
                 )}
             </section>
         </>
