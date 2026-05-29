@@ -1,6 +1,7 @@
 import { useAuth } from '../hooks/useAuth.ts'
 import { useFetch } from '../hooks/useFetch.ts'
 import type { RemoteUser } from '../types/remoteUser.ts'
+import RemoteUserListItem from './RemoteUserListItem.tsx'
 
 const API_URL = 'https://jsonplaceholder.typicode.com/users'
 
@@ -35,18 +36,21 @@ const UsersPanel = () => {
         )
     }
 
-      return (
-          <section className="users-panel" aria-label="Utilisateurs distants">
-              <h2>Utilisateurs API (useFetch)</h2>
-              <ul>
-                  {data?.slice(0, 5).map((remoteUser) => (
-                      <li key={remoteUser.id}>
-                          {remoteUser.name} - {remoteUser.email}
-                      </li>
-                  ))}
-              </ul>
-          </section>
-      )
+    return (
+        <section className="users-panel" aria-label="Utilisateurs distants">
+            <h2>Utilisateurs API (useFetch)</h2>
+            <ul>
+                {data?.slice(0, 5).map((remoteUser) => (
+                    <RemoteUserListItem
+                        key={remoteUser.id}
+                        id={remoteUser.id}
+                        name={remoteUser.name}
+                        email={remoteUser.email}
+                    />
+                ))}
+            </ul>
+        </section>
+    )
 }
 
 export default UsersPanel

@@ -1,8 +1,8 @@
 {
   "label": "Après code splitting (TP5)",
-  "entryJsKb": 7.89,
-  "chunks": 5,
-  "entryReductionPercent": 96.6,
+  "entryJsKb": 6.52,
+  "chunks": 10,
+  "entryReductionPercent": 97.2,
   "files": [
     {
       "file": "vendor-react-BfaJXzyK.js",
@@ -17,13 +17,33 @@
       "sizeKb": 20.5
     },
     {
-      "file": "index-B-ZMgvMs.js",
-      "sizeKb": 7.89
+      "file": "index-DO3sfvQM.js",
+      "sizeKb": 6.52
+    },
+    {
+      "file": "UsersPanel-C_GtoROq.js",
+      "sizeKb": 1.62
+    },
+    {
+      "file": "LocalUsersSection-C3i9aZ1P.js",
+      "sizeKb": 1.37
+    },
+    {
+      "file": "DashboardPage-UDRoBD0r.js",
+      "sizeKb": 1.04
+    },
+    {
+      "file": "Modal-BZ6KBCzy.js",
+      "sizeKb": 0.9
     },
     {
       "file": "rolldown-runtime-Bh1tDfsg.js",
       "sizeKb": 0.55
+    },
+    {
+      "file": "GuestPage-Bo-WRsG3.js",
+      "sizeKb": 0.24
     }
   ],
-  "generatedAt": "2026-05-28T13:48:31.495Z"
+  "generatedAt": "2026-05-29T07:50:44.527Z"
 }
