@@ -110,3 +110,66 @@ code {
     padding: 4px 8px;
     background: var(--code-bg);
 }
+
+.page-transition-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 14rem;
+}
+
+.page-transition-page {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+.app-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.app-nav a {
+  color: var(--text-h);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 0.375rem;
+  padding: 0.4rem 0.75rem;
+  transition: background-color 0.2s;
+}
+
+.app-nav a:hover {
+  background: var(--accent-bg);
+}
+
+.app-nav a.active {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.app-nav-disabled {
+  color: var(--text);
+  border: 1px dashed var(--border);
+  border-radius: 0.375rem;
+  padding: 0.4rem 0.75rem;
+  opacity: 0.6;
+}
