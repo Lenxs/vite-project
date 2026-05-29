@@ -48,6 +48,29 @@
   text-align: left;
 }
 
+/* Page Transition Styles */
+.page-transition-wrapper {
+  position: relative;
+}
+
+.page-enter {
+  opacity: 0;
+}
+
+.page-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.page-exit {
+  opacity: 1;
+}
+
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
